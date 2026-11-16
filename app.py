@@ -463,7 +463,7 @@ paginas = [
             "`$vs (ID servidor)` –\n"
             "**Raidea solo si el Bot está dentro del servidor.**\n"
             "`$da (ID usuario) (ID servidor)` –\n"
-            "**Crea un rol admin y se lo da al usuario si Chuyin está en el servidor.\n"
+            "**Crea un rol admin y se lo da al usuario si Chuyin está en el servidor.**\n"
             "`$md` –\n"
             "**Envía un MD a todos con el link del bot.**\n"
             "`$massban` –\n"
@@ -474,8 +474,17 @@ paginas = [
 @bot.command()
 async def hlp(ctx):
     page = paginas[0]
-    embed = discord.Embed(title=page['title'], description=page['descripcion'], color=0x6E0F0F)
-    embed.set_thumbnail(url="https://i.postimg.cc/VLn8Vfbs/Imagen-de-Chat-GPT-15-nov-2026-07-20-08-p-m.png")
+
+    embed = discord.Embed(
+        title=page["title"],
+        description=page["descripcion"],
+        color=0x6E0F0F
+    )
+
+    embed.set_thumbnail(
+        url="https://i.postimg.cc/VLn8Vfbs/Imagen-de-Chat-GPT-15-nov-2026-07-20-08-p-m.png"
+    )
+
     await ctx.send(embed=embed)
 
 webserver.keep_alive()
