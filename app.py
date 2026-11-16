@@ -428,36 +428,9 @@ async def db(ctx, user_id: int):
         await ctx.send(f'No se pudo desbanear al usuario `{user_id}`.\nError: {e}')
         return
 
-class HelpView(View):
-    def __init__(self, ctx):
-        super().__init__(timeout=60)
-        self.ctx = ctx
-        self.index = 0
-
-    async def update_embed(self, interaction):
-        page = paginas[self.index]
-        embed = discord.Embed(title=page['title'], description=page['descripcion'], color=12436423)
-        await interaction.response.edit_message(embed=embed, view=self)
-
-    @discord.ui.button(label='Anterior', style=discord.ButtonStyle.primary)
-    async def anterior(self, interaction: discord.Interaction, button: Button):
-        if self.index > 0:
-            self.index -= 1
-            await self.update_embed(interaction)
-
-    @discord.ui.button(label='Siguiente', style=discord.ButtonStyle.primary)
-    async def siguiente(self, interaction: discord.Interaction, button: Button):
-        if self.index < len(paginas) - 1:
-            self.index += 1
-            await self.update_embed(interaction)
-
-    @discord.ui.button(label='Cerrar', style=discord.ButtonStyle.danger)
-    async def cerrar(self, interaction: discord.Interaction, button: Button):
-        await interaction.message.delete()
-
 paginas = [
     {
-        "title": "Panel de ayuda de ZSquadBot (Página 1 de 3)",
+        "title": "Panel de ayuda de ZSquadBot (1 de 3)",
         "descripcion": (
             "`$hlp` –\n"
             "**Muestra este panel de ayuda.**\n"
@@ -469,11 +442,6 @@ paginas = [
             "**Crea una cantidad de 80 canales.**\n"
             "`$nuke` –\n"
             "**Borra todos los canales del servidor.**\n"
-        )
-    },
-    {
-        "title": "Panel de ayuda de ZSquadBot (Página 2 de 3)",
-        "descripcion": (
             "`$cn` –\n"
             "**Cambia el nombre del servidor.**\n"
             "`$cr (cantidad)` –\n"
@@ -488,11 +456,6 @@ paginas = [
             "**Desbanea a un usuario por medio de su ID solo si el bot está en el servidor.**\n"
             "`$wbh` –\n"
             "**Envía repetidas veces un mensaje de raid.**\n"
-        )
-    },
-    {
-        "title": "Panel de ayuda de ZSquadBot (Página 3 de 3)",
-        "descripcion": (
             "`$dr` –\n"
             "**Borra todos los roles excepto los que tienen admin.**\n"
             "`$ks (ID servidor)` –\n"
@@ -510,11 +473,10 @@ paginas = [
 ]
 @bot.command()
 async def hlp(ctx):
-    page = paginas[0]
+    for page in paginas;
     embed = discord.Embed(title=page['title'], description=page['descripcion'], color=0x6E0F0F)
-    view = HelpView(ctx)
     embed.set_thumbnail(url="https://i.postimg.cc/VLn8Vfbs/Imagen-de-Chat-GPT-15-nov-2026-07-20-08-p-m.png")
-    await ctx.send(embed=embed, view=view)
+    await ctx.send(embed=embed)
 
 webserver.keep_alive()
 bot.run(DISCORD_TOKEN)
