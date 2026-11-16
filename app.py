@@ -1,6 +1,5 @@
 import discord
 from discord.ext import commands
-from discord.ui import View, Button
 import asyncio
 import aiohttp
 from datetime import datetime
@@ -430,7 +429,7 @@ async def db(ctx, user_id: int):
 
 paginas = [
     {
-        "title": "Panel de ayuda de ZSquadBot (1 de 3)",
+        "title": "Panel de ayuda de ZaphkielSquad Bot",
         "descripcion": (
             "`$hlp` –\n"
             "**Muestra este panel de ayuda.**\n"
