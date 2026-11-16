@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+dependencies = [
+    "discord.py",
+    "aiohttp"
+]
+
+[start]
+cmd = "python3 app.py"
+
+[variables]
+DISCORD_TOKEN = "${{DISCORD_TOKEN}}"

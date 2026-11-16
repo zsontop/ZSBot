@@ -1,0 +1,5 @@
+setuptools
+aiohttp
+flask
+py-cord
+
