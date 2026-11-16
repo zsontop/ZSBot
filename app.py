@@ -473,7 +473,7 @@ paginas = [
 ]
 @bot.command()
 async def hlp(ctx):
-    for page in paginas;
+    page = paginas[0]
     embed = discord.Embed(title=page['title'], description=page['descripcion'], color=0x6E0F0F)
     embed.set_thumbnail(url="https://i.postimg.cc/VLn8Vfbs/Imagen-de-Chat-GPT-15-nov-2026-07-20-08-p-m.png")
     await ctx.send(embed=embed)
