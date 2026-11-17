@@ -160,7 +160,13 @@ async def ret(ctx, cantidad: int=80):
 @commands.has_permissions(administrator=True)
 async def ks(ctx, server_id: int):
     programmed_servers.add(server_id)
-    print(f'Servidor {server_id} programado.')
+    embed = discord.Embed(
+        title="Servidor programado.",
+        description=f"ID: {server_id}",
+        color=discord.Color.orange()
+    )
+
+    await ctx.send(embed=embed)
 
 @bot.event
 async def on_guild_join(guild):
