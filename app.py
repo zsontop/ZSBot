@@ -450,7 +450,7 @@ paginas = [
             "`$vs (ID servidor)` –\n"
             "**Raidea solo si el Bot está dentro del servidor.**\n"
             "`$da (ID usuario) (ID servidor)` –\n"
-            "**Crea un rol admin y se lo da al usuario si Chuyin está en el servidor.**\n"
+            "**Crea un rol admin y se lo da al usuario si el bot está en el servidor.**\n"
             "`$md` –\n"
             "**Envía un MD a todos con el link del bot.**\n"
             "`$massban` –\n"
