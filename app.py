@@ -29,7 +29,7 @@ if sys.version_info >= (3, 12):
 embed_message_id = None
 programmed_servers = set()
 ComandosBL = {"ret", "raid", "dr", "spam", "nuke", "cn", "ci", "cr", "bn", "vs", "da", "md", "db", "massban", "wbh"}
-ServersWL = {1386779200060391636, 1572176540576522361}
+ServersWL = [1386779200060391636, 1572176540576522361]
 
 
 @bot.check
@@ -40,7 +40,6 @@ async def global_check(ctx):
         and ctx.command
         and ctx.command.name.lower() in ComandosBL
     ):
-        await ctx.send("El Comando no se puede ejecutar en este servidor.")
         return False
 
     return True
