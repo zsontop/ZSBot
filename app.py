@@ -33,7 +33,7 @@ ServersWL = [1386779200060391636, 1572176540576522361]
 
 @bot.check
 async def bloquear_comandos(ctx):
-    if ctx.guild and ctx.guild.id == ServidorBloqueado:
+    if ctx.guild and ctx.guild.id == ServersWLo:
         if ctx.command and ctx.command.name.lower() in ComandosBL:
             return False
     return True
