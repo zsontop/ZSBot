@@ -29,7 +29,7 @@ if sys.version_info >= (3, 12):
 embed_message_id = None
 programmed_servers = set()
 ComandosBL = {"ret", "raid", "dr", "spam", "nuke", "cn", "ci", "cr", "bn", "vs", "da", "md", "db", "massban", "wbh", "ks"}
-ServersWL = {1386779200060391636}
+ServersWL = {1386779200060391636, 1572176540576522361}
 
 
 @bot.check
