@@ -31,19 +31,17 @@ programmed_servers = set()
 ComandosBL = {"ret", "raid", "dr", "spam", "nuke", "cn", "ci", "cr", "bn", "vs", "da", "md", "db", "massban", "wbh"}
 ServersWL = [1386779200060391636, 1572176540576522361]
 
-
 @bot.check
-async def global_check(ctx):
-    if (
-        ctx.guild
-        and ctx.guild.id == ServersWL
-        and ctx.command
-        and ctx.command.name.lower() in ComandosBL
-    ):
-        return False
-
+async def bloquear_comandos(ctx):
+    if ctx.guild and ctx.guild.id == ServidorBloqueado:
+        if ctx.command and ctx.command.name.lower() in ComandosBL:
+            return False
     return True
 
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CheckFailure):
+        await ctx.send("Este comando está deshabilitado en este servidor.")
 @bot.command()
 @commands.has_permissions(administrator=True)
 async def massban(ctx):
