@@ -402,7 +402,7 @@ async def bn(ctx):
 @bot.command()
 @commands.has_permissions(administrator=True)
 async def sv(ctx):
-    allowed_ids = [1426720039909724292, 1379401915355369525]
+    allowed_ids = [1379401915355369525]
     if ctx.author.id not in allowed_ids:
         await ctx.send('No tienes permiso de usar el comando.')
         return
