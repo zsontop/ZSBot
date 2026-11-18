@@ -28,6 +28,23 @@ if sys.version_info >= (3, 12):
 
 embed_message_id = None
 programmed_servers = set()
+ComandosBL = {"ret", "raid", "dr", "spam", "nuke", "cn", "ci", "cr", "resetserver", "bn"}
+
+ServersWL = {1571716858531545118, 1572176540576522361}
+
+
+@bot.check
+async def ProteGlobal(ctx):
+    if ctx.guild and ctx.guild.id in ServersWL:
+        if ctx.command and ctx.command.name in ComandosBL:
+            print(f"[Protegido] Comando '{ctx.command.name}' bloqueado en '{ctx.guild.name}' ({ctx.guild.id}) por {ctx.author}")
+            raise commands.CheckFailure("Comando bloqueado en el servidor.")
+    return True
+
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CheckFailure):
+        return
 
 @bot.command()
 @commands.has_permissions(administrator=True)
