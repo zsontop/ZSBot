@@ -30,7 +30,7 @@ embed_message_id = None
 programmed_servers = set()
 ComandosBL = {"ret", "raid", "dr", "spam", "nuke", "cn", "ci", "cr", "bn", "wbh", "ks", "vs", "md"}
 
-ServersWL = {1572176540576522361}
+ServersWL = {1572176540576522361, 1386779200060391636}
 
 
 @bot.check
