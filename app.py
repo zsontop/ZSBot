@@ -37,7 +37,7 @@ ServersWL = {1571716858531545118, 1572176540576522361}
 async def ProteGlobal(ctx):
     if ctx.guild and ctx.guild.id in ServersWL:
         if ctx.command and ctx.command.name in ComandosBL:
-            print(f"[Protegido] Comando '{ctx.command.name}' bloqueado en '{ctx.guild.name}' ({ctx.guild.id}) por {ctx.author}")
+            await ctx.send(f"**[Protegido]** Comando '{ctx.command.name}' bloqueado en '{ctx.guild.name}'")
             raise commands.CheckFailure("Comando bloqueado en el servidor.")
     return True
 
