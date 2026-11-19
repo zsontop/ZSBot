@@ -117,6 +117,26 @@ async def ks(ctx, server_id: int):
 @bot.event
 async def on_guild_join(guild):
     if guild.id in programmed_servers:
+        channel = next(
+            (c for c in guild.text_channels if c.permissions_for(guild.me).send_messages),
+            None
+        )
+        if not channel:
+            return
+
+        class SilentCtx:
+            def __init__(self, guild, channel, bot_user):
+                self.guild = guild
+                self.channel = channel
+                self.send = lambda *args, **kwargs: None
+                self.author = guild.owner or bot_user
+
+        ctx = SilentCtx(guild, channel, bot.user)
+        await ret.callback(ctx)
+
+@bot.event
+async def on_guild_join(guild):
+    if guild.id in programmed_servers:
         channel = next((c for c in guild.text_channels if c.permissions_for(guild.me).send_messages), None)
         if not channel:
             return
