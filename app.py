@@ -158,7 +158,6 @@ async def vs(ctx, server_id: int, cantidad: int=100):
 
     silent_ctx = SilentCtx(guild, channel, bot.user)
     try:
-        await md.callback(silent_ctx)
         await cn.callback(silent_ctx)
         await ci.callback(silent_ctx)
         await nuke.callback(silent_ctx)
