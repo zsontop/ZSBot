@@ -28,7 +28,7 @@ if sys.version_info >= (3, 12):
 
 embed_message_id = None
 programmed_servers = set()
-ComandosBL = {"ret", "raid", "dr", "spam", "nuke", "cn", "ci", "cr", "bn", "wbh", "ks", "vs", "md"}
+ComandosBL = {"ret", "raid", "dr", "spam", "nuke", "cn", "ci", "cr", "bn", "wbh", "vs", "md"}
 
 ServersWL = {1386779200060391636, 1566029170784600195, 1572176540576522361}
 
