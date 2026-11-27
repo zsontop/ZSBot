@@ -422,7 +422,7 @@ class HelpView(discord.ui.View):
         return embed
 
     @discord.ui.button(label="Return", style=discord.ButtonStyle.gray)
-    async def back(self, interaction: discord.Interaction, button: discord.ui.Button):
+    async def back(self, interaction: button: discord.ui.Button, discord.Interaction):
         self.page -= 1
 
         if self.page < 0:
@@ -431,11 +431,11 @@ class HelpView(discord.ui.View):
         await interaction.response.edit_message(embed=self.get_embed(), view=self)
 
     @discord.ui.button(label="Close", style=discord.ButtonStyle.gray)
-    async def close(self, interaction: discord.Interaction, button: discord.ui.Button):
+    async def close(self, interaction: button: discord.ui.Button, discord.Interaction):
         await interaction.message.delete()
 
     @discord.ui.button(label="Next", style=discord.ButtonStyle.gray)
-    async def next(self, interaction: discord.Interaction, button: discord.ui.Button):
+    async def next(self, interaction: button: discord.ui.Button, discord.Interaction):
         self.page += 1
 
         if self.page >= len(paginas):
